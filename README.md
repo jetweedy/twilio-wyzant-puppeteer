@@ -1,2 +1,8 @@
 # twilio-wyzant-puppeteer
-Scrape Wyzant for Jobs and Send a Text With Opportunities
+Using Puppeteer to scrape Wyzant, and then sending an SMS for relevant jobs using Twilio
+
+## Installation
+npm install dotenv
+npm install twilio
+npm install puppeteer
+npm install opn
