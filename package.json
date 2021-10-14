@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "opn": "^6.0.0",
+    "puppeteer": "^10.4.0",
+    "twilio": "^3.69.0"
+  }
+}
