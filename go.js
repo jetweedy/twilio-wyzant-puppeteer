@@ -31,29 +31,28 @@ let sendSMS = (phone, message) => {
 
 let scrape = async () => {
     console.log("running at " + new Date());
-	var browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});	// <--- set to true for scraping
-	var page = await browser.newPage();
-	await page.goto("https://wyzant.com/login");
-//	await page.waitForTimeout(10000);
+    var browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]}); // <--- set to true for scraping
+    var page = await browser.newPage();
+    await page.goto("https://wyzant.com/login");
     await page.waitForSelector("#Username", { visible: true });
+//    await page.type("#Username", process.env.WYZANT_USERNAME);
+//    await page.type("#Password", process.env.WYZANT_USERNAME);
     var data = await page.evaluate((envariables) => {
         var inputs = document.getElementsByTagName("input");
         for (var i=0;i<inputs.length;i++) {
             if (inputs[i].id=="Username") { inputs[i].value = envariables.WYZANTUSERNAME; }
             if (inputs[i].id=="Password") { inputs[i].value = envariables.WYZANTPASSWORD; }
         }
-    }, {WYZANTUSERNAME:process.env.WYZANTUSERNAME, WYZANTPASSWORD:process.env.WYZANTPASSWORD});
+    }, {WYZANTUSERNAME:process.env.WYZANT_USERNAME, WYZANTPASSWORD:process.env.WYZANT_PASSWORD});
     console.log("Clicking login button.");
     await page.click('#sso_login-landing > form > button');
-	await page.waitForTimeout(5000);
+    await page.waitForTimeout(5000);
     console.log("Going to jobs page.");
     await page.goto("https://www.wyzant.com/tutor/jobs");
     await page.waitForTimeout(5000);
 
     var data = await page.evaluate(() => {
         console.clear();
-        return document.body.innerHTML;        
-        /*
         var items = [];
         var cards = $(".academy-card");
         cards.each((c, card) => {
@@ -63,10 +62,9 @@ let scrape = async () => {
             var a = age.match(ageRegex);
             if (a != null) {
                 // console.log("a", a);
-//                var keywordRegex = /boot ?camp/i;
-//                var keywordRegex = /desperately/i;
-//                var k = card.innerHTML.match(keywordRegex);
-//                if (k!=null) {
+                var keywordRegex = /boot ?camp/i;
+                var k = card.innerHTML.match(keywordRegex);
+                if (k!=null) {
                     // console.log("k", k);
                     var priceRegex = /Recommended rate: \$([\.0-9]+)/;
                     var p = card.innerHTML.match(priceRegex);
@@ -78,24 +76,21 @@ let scrape = async () => {
                         var x = {rate:rate, url:url};
                         items.push(x);
                     }
-//                }
+                }
             }
         });
         // console.log(items);
         return items;
-        */
     });
-    console.log(data);
-    fs.writeFileSync('./debug1.txt', data);
-    /*
+//    console.log(data);
+//    fs.writeFileSync('./debug1.txt', JSON.stringify(data, null, 2));
     for (var d in data) {
         console.log(data[d]);
-        opn(data[d].url);
+//        opn(data[d].url);
 //        sendSMS(myPhone, "Wyzant 'Boot Camp' Opportunity: " + data[d].url);
     }
-    */
-	browser.close();
-	return {};
+    browser.close();
+    return {};
 }
 
 scrape();
