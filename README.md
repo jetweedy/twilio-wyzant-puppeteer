@@ -1,6 +1,8 @@
 # twilio-wyzant-puppeteer
 Using Puppeteer to scrape Wyzant, and then sending an SMS for relevant jobs using Twilio
 
+**This is currently a little broken. I'm working out some kinks, so some stuff has been saved to the repo as commented out.**
+
 ## Installation
 
 ### Node Libraries
