@@ -1,9 +1,8 @@
 require('dotenv').config();
 
 const WAITINT = 60000;
-const wyzantUsername = env.WYZANT_USERNAME;
-const wyzantPassword = env.WYZANT_PASSWORD;
-
+const wyzantUsername = process.env.WYZANT_USERNAME;
+const wyzantPassword = process.env.WYZANT_PASSWORD;
 const accountSid = process.env.TWILIO_ACCT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myPhone = process.env.MY_PHONE;
@@ -18,7 +17,7 @@ let sendSMS = (phone, message) => {
     client.messages.create({
         body: message,
         to: phone,
-        from: '+19362531975'
+        from: process.env.TWILIO_PHONE_NUMBER
     })
     .then((message) => {
 //        console.log(message.sid))
