@@ -13,6 +13,8 @@ npm install opn
 npm install
 ```
 
+You'll also need to make sure you have Chrome installed. If you're in Ubuntu/Linux, you can try the Chrome parts of these instructions: [https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/](https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/)
+
 You have to have accounts on both [Twilio](https://twilio.com) and [Wyzant](https://www.wyzant.com/tutorsignupstart) to use this app. Once you do, create a .env file and include the following variables:
 
 ```
