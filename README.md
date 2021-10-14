@@ -2,6 +2,9 @@
 Using Puppeteer to scrape Wyzant, and then sending an SMS for relevant jobs using Twilio
 
 ## Installation
+
+### Node Libraries
+
 ```
 npm install dotenv
 npm install twilio
@@ -13,7 +16,11 @@ npm install opn
 npm install
 ```
 
+### Chrome/Chromium Drivers
+
 You'll also need to make sure you have Chrome installed. If you're in Ubuntu/Linux, you can try the Chrome parts of these instructions: [https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/](https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/)
+
+### Required Accounts
 
 You have to have accounts on both [Twilio](https://twilio.com) and [Wyzant](https://www.wyzant.com/tutorsignupstart) to use this app. Once you do, create a .env file and include the following variables:
 
@@ -26,7 +33,9 @@ MY_PHONE=
 
 ```
 
-(This .env file is ignored by git, so if for any reason you contribute to the project, .env should not be included in modified files for commit and push.)
+### Additional Notes
+
+(The .env file containing your credentials is ignored by git, so if for any reason you contribute to the project, .env should not be included in modified files for commit and push - for privacy reasons, of course.)
 
 
 ## Usage
