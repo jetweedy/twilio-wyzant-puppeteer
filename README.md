@@ -8,3 +8,12 @@ npm install twilio
 npm install puppeteer
 npm install opn
 ```
+**or just**
+```
+npm install
+```
+
+## Usage
+```
+node go.js
+```
