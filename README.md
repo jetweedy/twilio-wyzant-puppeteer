@@ -9,6 +9,8 @@ Using Puppeteer to scrape Wyzant, and then sending an SMS for relevant jobs usin
 npm install dotenv
 npm install twilio
 npm install puppeteer
+npm install puppeteer-extra
+npm install puppeteer-extra-plugin-stealth
 npm install opn
 ```
 **or just**

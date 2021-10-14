@@ -7,7 +7,10 @@ const accountSid = process.env.TWILIO_ACCT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const myPhone = process.env.MY_PHONE;
 
-const puppeteer = require('puppeteer');
+//const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 const fs = require("fs");
 const opn = require('opn');
 const twilio = require('twilio');
@@ -31,7 +34,7 @@ let scrape = async () => {
 	var browser = await puppeteer.launch({headless: true, args: ["--no-sandbox"]});	// <--- set to true for scraping
 	var page = await browser.newPage();
 	await page.goto("https://wyzant.com/login");
-//	await page.waitFor(10000);
+//	await page.waitForTimeout(10000);
     await page.waitForSelector("#Username", { visible: true });
     var data = await page.evaluate((envariables) => {
         var inputs = document.getElementsByTagName("input");
@@ -40,33 +43,31 @@ let scrape = async () => {
             if (inputs[i].id=="Password") { inputs[i].value = envariables.WYZANTPASSWORD; }
         }
     }, {WYZANTUSERNAME:process.env.WYZANTUSERNAME, WYZANTPASSWORD:process.env.WYZANTPASSWORD});
+    console.log("Clicking login button.");
     await page.click('#sso_login-landing > form > button');
-	await page.waitFor(5000);
-    await page.click('#my-business-nav-item > div.text-small.show-inline-block');
-	await page.waitFor(1000);
-    await page.click('#my-business-nav-item > div.ui-menu-submenu > div:nth-child(8) > a');
-
-    /*
-    Instead:
-    Scrape page for new job listings. 
-    Try to identify a most recent ID / timestamp or something and store it.
-    For newer ones that were posted within the last 30m or so, send me a text with a link.
-    IFF they have the words "[B]oot[ ][C]amp" in them and pay between about $20 and $80 per hour.
-    */
-	await page.waitFor(10000);
+	await page.waitForTimeout(5000);
+    console.log("Going to jobs page.");
+    await page.goto("https://www.wyzant.com/tutor/jobs");
+    await page.waitForTimeout(5000);
 
     var data = await page.evaluate(() => {
-        var items = [];
         console.clear();
+        return document.body.innerHTML;        
+        /*
+        var items = [];
         var cards = $(".academy-card");
         cards.each((c, card) => {
+            console.log(cards[c]);
             var age = card.getElementsByClassName("pull-right")[0].innerText;
-            var ageRegex = /([0-9]m)/;
+            var ageRegex = /([0-9]+m)/;
             var a = age.match(ageRegex);
             if (a != null) {
-                var keywordRegex = /boot ?camp/i;
-                var k = card.innerHTML.match(keywordRegex);
-                if (k!=null) {
+                // console.log("a", a);
+//                var keywordRegex = /boot ?camp/i;
+//                var keywordRegex = /desperately/i;
+//                var k = card.innerHTML.match(keywordRegex);
+//                if (k!=null) {
+                    // console.log("k", k);
                     var priceRegex = /Recommended rate: \$([\.0-9]+)/;
                     var p = card.innerHTML.match(priceRegex);
                     if (p!=null) {
@@ -77,18 +78,22 @@ let scrape = async () => {
                         var x = {rate:rate, url:url};
                         items.push(x);
                     }
-                }
+//                }
             }
         });
-//        console.log(items);
+        // console.log(items);
         return items;
+        */
     });
+    console.log(data);
+    fs.writeFileSync('./debug1.txt', data);
+    /*
     for (var d in data) {
         console.log(data[d]);
         opn(data[d].url);
 //        sendSMS(myPhone, "Wyzant 'Boot Camp' Opportunity: " + data[d].url);
     }
-
+    */
 	browser.close();
 	return {};
 }

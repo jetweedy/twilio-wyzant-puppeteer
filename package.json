@@ -3,6 +3,8 @@
     "dotenv": "^10.0.0",
     "opn": "^6.0.0",
     "puppeteer": "^10.4.0",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-stealth": "^2.8.2",
     "twilio": "^3.69.0"
   }
 }
